@@ -1,0 +1,28 @@
+'use client';
+
+import {
+  CssBaseline,
+  // ThemeProvider,
+  Experimental_CssVarsProvider as CssVarsProvider,
+} from '@mui/material';
+import { ReactNode } from 'react';
+import { NextAppDirEmotionCacheProvider } from 'tss-react/next/appDir';
+
+import theme from '@/theme';
+
+type Props = {
+  children: ReactNode;
+};
+
+export default function MuiSetup({ children }: Props) {
+  return (
+    <>
+      <CssBaseline />
+      {/* MUI (but actually underlying Emotion) isn't ready to work with Next's experimental `app/` directory feature.
+          I'm using the lowest-code approach suggested by this guy here: https://github.com/emotion-js/emotion/issues/2928#issuecomment-1386197925 */}
+      <NextAppDirEmotionCacheProvider options={{ key: 'css' }}>
+        <CssVarsProvider theme={theme}>{children}</CssVarsProvider>
+      </NextAppDirEmotionCacheProvider>
+    </>
+  );
+}
